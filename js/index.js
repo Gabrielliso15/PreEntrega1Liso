@@ -16,7 +16,7 @@ class Producto {
 // Declaracion del array carrito.
 let carrito = [];
 
-// creacion de todos los objetos.
+// Declaracion de todos los objetos.
 let Camiseta = new Producto("camiseta", 11500);
 let Pantalon = new Producto("pantalon", 9400);
 let Buzo = new Producto("buzo", 15999);

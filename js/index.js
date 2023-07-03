@@ -25,9 +25,7 @@ let Pelota = new Producto("pelota", 7999);
 
 
 
-// Muestra en consola todos los productos disponibles.
-// console.log(" Pelota = $7999 - Camiseta = $11500 - Pantalon = $9400 - Buzo = $15999 - Campera = $15999");
-
+// Variable que concatena strings con todos los productos.
 
 let mensaje = "";
 mensaje += "- Pelota: $" + Pelota.precio + "\n";

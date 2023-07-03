@@ -1,7 +1,7 @@
 
 // Nueva clase con un producto (objeto).
 class Producto {
-    constructor(nombre, precio, ID) {
+    constructor(nombre, precio) {
         this.nombre = nombre;
         this.precio = precio;
         this.ID = this.crearID();
@@ -29,14 +29,13 @@ let Pelota = new Producto("pelota", 7999);
 // console.log(" Pelota = $7999 - Camiseta = $11500 - Pantalon = $9400 - Buzo = $15999 - Campera = $15999");
 
 
-let mensaje = "Productos disponibles:\n";
+let mensaje = "";
 mensaje += "- Pelota: $" + Pelota.precio + "\n";
 mensaje += "- Camiseta: $" + Camiseta.precio + "\n";
 mensaje += "- Pantalon: $" + Pantalon.precio + "\n";
 mensaje += "- Buzo: $" + Buzo.precio + "\n";
 mensaje += "- Campera: $" + Campera.precio + "\n";
 
-alert(mensaje);
 
 // Variable "Total" para guardar la suma de la compra.
 let total = 0;
@@ -45,17 +44,17 @@ let total = 0;
 // En un inicio se solicita al usuario ingresar un producto y se analiza que se encuentre dentro de los disponibles. En caso de ingresar cualquie otra cosa imprime "Producto desconocido" y no entra al while que suma todo. (Esta checkeo sirve para el primer producto. Los demás se controlan dentro del while).
 
 
-let compra = prompt("Ingrese el nombre de los productos que desea comprar ¡Escriba 'fin' para finalizar!");
+let compra = prompt("PRODUCTOS DISPONIBLES:\n" + mensaje +"\n Ingrese el nombre de los productos que desea comprar. ¡Escriba 'fin' para finalizar!");
 compra = compra.toLowerCase();
 
 while ((compra != "pelota") && (compra != "buzo") && (compra != "campera") && (compra != "camiseta") && (compra != "pantalon")) {
-    compra = prompt("Ingrese un producto VALIDO");
+    compra = prompt("PRODUCTOS DISPONIBLES:\n" + mensaje +" \n El producto ingresado no existe. Por favor ingrese un producto Valido");
     compra = compra.toLowerCase();
 }
 
 while (compra != "fin") {
     SumarProducto(compra);
-    compra = prompt("Ingrese el nombre de los productos que desea comprar ¡Escriba 'FIN' para finalizar!");
+    compra = prompt("PRODUCTOS DISPONIBLES:\n" + mensaje +"\n Ingrese el nombre de los productos que desea comprar. ¡Escriba 'fin' para finalizar!");
     compra = compra.toLowerCase();
 }
 
@@ -93,7 +92,7 @@ function SumarProducto(producto) {
             carrito.push(new Producto("pantalon", 9400));
             break;
         default:
-            alert("Producto no válido");
+            alert("PRODUCTOS DISPONIBLES:\n" + mensaje +" \n El producto ingresado no existe. Por favor ingrese un producto Valido");
     }
 }
 
@@ -113,12 +112,15 @@ function eliminarProducto(ID) {
 // 1 : Agrega un producto al carrito actual.
 // 2 : Muestra en un prompt el carrito actual.
 // 3 : Filtra un producto por ID y lo elimina del carrito.
-// 4 : Muestra el valor final de la compra con un descuento aplicado.
+// 4 : Muestra el valor final de la compra con un descuento aplicado y cierra el menu.
 // 99 : cierra el menu.
 
 
 function FinalizarCompra() {
     let opcion = "";
+    // decidi utilizar esta variable con un boolean que me permite cerrar el menu tanto cuando el usuario ingrese el valor 99 como al finalizar la compra con el valor 4.
+    let continuar = true;
+
     do {
         opcion = prompt(`Seleccione una opción:
         1. Agregar Producto
@@ -128,11 +130,11 @@ function FinalizarCompra() {
         99. Salir`);
         switch (opcion) {
             case "1":
-                let compra = prompt("Ingrese el nombre del producto que desea agregar");
+                let compra = prompt("PRODUCTOS DISPONIBLES:\n" + mensaje +"\n Ingrese el nombre del producto que desea agregar");
                 compra = compra.toLowerCase();
 
                 while ((compra != "pelota") && (compra != "buzo") && (compra != "campera") && (compra != "camiseta") && (compra != "pantalon")) {
-                    compra = prompt("Ingrese un producto VALIDO");
+                    compra = prompt("PRODUCTOS DISPONIBLES:\n" + mensaje +" \n El producto ingresado no existe. Por favor ingrese un producto Valido");
                     compra = compra.toLowerCase();
                 }
 
@@ -141,11 +143,10 @@ function FinalizarCompra() {
             case "2":
                 let mensajeCarrito = "Carrito:\n";
                 let total = 0;
-                for (let i = 0; i < carrito.length; i++) {
-                    let producto = carrito[i];
-                    total = total + producto.precio;
-                    mensajeCarrito += "ID: " + producto.ID+" - "+ producto.nombre + ": $" + producto.precio + "\n";
-                }
+                carrito.forEach(producto => {
+                    total += producto.precio;
+                    mensajeCarrito += "ID: " + producto.ID + " - " + producto.nombre + ": $" + producto.precio + "\n";
+                });
                 mensajeCarrito +=  " \n Total : $" +total ;
                 alert(mensajeCarrito);
 
@@ -167,16 +168,18 @@ function FinalizarCompra() {
                     tot = tot + producto.precio;
                 }
                 alert ("Con su primera compra se aplica un Descuento del 20%!!. \n \n EL TOTAL CON DESCUENTO ES DE : $" +Descuento(tot));
-            
+                continuar = false;
                 break;
             case "99":
+                continuar = false;
                 break;
             default:
                 alert("Opción inválida");
                 break;
         }
-    } while (opcion !== "99");
+    } while (continuar);
 
 }
 
+// llamado a la funcion finalizarcompra.
 FinalizarCompra ();
